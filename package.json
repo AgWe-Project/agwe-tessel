@@ -1,0 +1,19 @@
+{
+  "name": "tessel-agwe",
+  "version": "0.0.0",
+  "description": "Tessel sockio server for climage and ambient",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "",
+  "keywords": [
+    "Tessel"
+  ],
+  "license": "MIT",
+  "readme": "umm",
+  "dependencies": {
+    "climate-si7020": "^0.1.1",
+    "socket.io": "^1.4.5"
+  }
+}
