@@ -2,6 +2,7 @@ var ip = require('ip');
 //Import tessel hardware interfaces
 var tessel = require('tessel');
 var climate = require('climate-si7020').use(tessel.port['A']);
+var ambient = require('ambient-attx4').use(tessel.port['B']);
 
 var handler = require('./server.js');
 //Start Socket.Import
@@ -18,6 +19,11 @@ var monitor = {
 		climate.readHumidity(function (err, humid){
 			io.emit('humid', {humid: humid.toFixed(4)});
 		});
+	},
+	lightListener: function () {
+		ambient.getLightLevel(function (err, light){
+			io.emit('light', {light: light});
+		});
 	}
 };
 
@@ -25,6 +31,11 @@ climate.on('ready', function () {
 	console.log('Connected to climate module');
 	setInterval(monitor.tempListener, 1000);
 	setInterval(monitor.humidListener, 1000);
+});
+
+ambient.on('ready', function () {
+	console.log('Connected to ambient module');
+	setInterval(monitor.lightListener, 1000);
 });
 
 io.on('connection', function (socket) {
