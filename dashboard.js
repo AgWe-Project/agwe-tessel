@@ -1,4 +1,5 @@
-var socket = io('http://AgWe.local');
+var domain = document.domain;
+var socket = io('http://'+ domain);
 socket.on('temp', function (data) {
   console.log(data);
 	document.getElementById("temp").innerHTML = data.temp;
