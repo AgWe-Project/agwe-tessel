@@ -12,8 +12,8 @@ Follow the instuctions at http://tessel.io/start to intialize your tessel to you
 ### Clone and install
 
 ```
-git clone git@github.com:ProZachJ/tessel-agwe.git
-cd tessel-agwe; npm install
+git clone git@github.com:ProZachJ/agwe-tessel.git
+cd agwe-tessel; npm install
 t2 push socket-climate.js
 ```
 
