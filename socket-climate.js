@@ -1,8 +1,7 @@
 var ip = require('ip');
 //Import tessel hardware interfaces
 var tessel = require('tessel');
-var climatelib = require('climate-si7020');
-var climate = climatelib.use(tessel.port['A']);
+var climate = require('climate-si7020').use(tessel.port['A']);
 
 var handler = require('./server.js');
 //Start Socket.Import
