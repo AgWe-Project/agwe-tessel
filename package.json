@@ -1,19 +1,26 @@
 {
-  "name": "tessel-agwe",
-  "version": "0.0.0",
-  "description": "Tessel sockio server for climage and ambient",
-  "main": "index.js",
+	"name": "agwe-tessel",
+  "version": "0.0.1",
+  "description": "Tessel sockio server for climate and ambient",
+	"main": "socket-climate.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": "",
+  "repository": "https://github.com/ProZachJ/agwe-tessel.git",
   "keywords": [
-    "Tessel"
+    "Tessel",
+		"AgWe",
+		"Greenhouse",
+		"Monitoring",
+		"Automation",
+		"Climate Control",
+		"Grow Controller"
   ],
   "license": "MIT",
   "readme": "umm",
   "dependencies": {
     "climate-si7020": "^0.1.1",
+    "ip": "^1.1.2",
     "socket.io": "^1.4.5"
   }
 }
