@@ -9,12 +9,12 @@ var app = require('http').createServer(handler)
 var io = require('socket.io')(app);
 
 var monitor = {
-	tempListener: function (socket) {
+	tempListener: function () {
 		climate.readTemperature('f', function (err, temp){
 			io.emit('temp', {temp: temp.toFixed(4)});
 		});
 	},
-	humidListener: function (socket) {
+	humidListener: function () {
 		climate.readHumidity(function (err, humid){
 			io.emit('humid', {humid: humid.toFixed(4)});
 		});
