@@ -29,13 +29,15 @@ var monitor = {
 
 climate.on('ready', function () {
 	console.log('Connected to climate module');
-	setInterval(monitor.tempListener, 1000);
-	setInterval(monitor.humidListener, 1000);
+	setInterval(monitor.tempListener, 30000);
+	setTimeout(function(){
+		setInterval(monitor.humidListener,30000);
+	}, 15000);
 });
 
 ambient.on('ready', function () {
 	console.log('Connected to ambient module');
-	setInterval(monitor.lightListener, 1000);
+	setInterval(monitor.lightListener, 30000);
 });
 
 io.on('connection', function (socket) {
