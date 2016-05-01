@@ -1,6 +1,3 @@
-var domain = document.domain;
-var socket = io('http://'+ domain);
-
 const AGWE_DB = "AgWe Data";
 const DB_VERSION = 1;
 const DB_STORES = ["temp", "humid", "light"];
@@ -8,6 +5,25 @@ const DB_STORES = ["temp", "humid", "light"];
 var db;
 var temp = [], humid = [], light = [];
 var data = [ temp, humid, light ];
+
+var socket = io('http://'+ document.domain);
+
+socket.on('temp', function (data) {
+	document.getElementById("temp").innerHTML = data.temp;
+	storeReading("temp", data);
+});
+
+socket.on('humid', function (data) {
+	document.getElementById("humid").innerHTML = data.humid;
+	storeReading("humid", data);
+});
+
+socket.on('light', function (data) {
+	document.getElementById("light").innerHTML = data.light;
+	storeReading("light", data);
+});
+
+openDB();
 
 function openDB(){
 	var db_req = indexedDB.open(AGWE_DB, DB_VERSION);
@@ -68,20 +84,3 @@ function displayData(store_name, data_array) {
 		tbody.innerHTML = tbody.innerHTML + "<tr><td>" + formatdate +"</td><td>" + dobj[store_name] + "</td></tr>";
 	});
 }
-
-socket.on('temp', function (data) {
-	document.getElementById("temp").innerHTML = data.temp;
-	storeReading("temp", data);
-});
-
-socket.on('humid', function (data) {
-	document.getElementById("humid").innerHTML = data.humid;
-	storeReading("humid", data);
-});
-
-socket.on('light', function (data) {
-	document.getElementById("light").innerHTML = data.light;
-	storeReading("light", data);
-});
-
-openDB();
