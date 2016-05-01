@@ -61,11 +61,46 @@ function fetchData (store_name, data_array) {
 		if (cursor) {
 			data_array.push(cursor.value);
 			cursor.continue();
-		}
-		else {
+		}else {
 			displayData(store_name, data_array);
+			graphData(store_name, data_array);
 		}
-	};
+	}
+}
+
+function graphData(store_name, data_array) {
+	var data = [];
+	var labels = [];
+	data_array.forEach(function(datapt){
+		data.push(datapt[store_name]);
+		labels.push(new Date(datapt.timestamp).toLocaleTimeString());
+	});
+	var ctx = document.getElementById(store_name + "-chart");
+	var myChart = new Chart(ctx, {
+		type: 'line',
+		data: {
+			labels: labels,
+			datasets: [{
+				label: store_name,
+				data: data,
+				fill: true,
+				lineTension: 0,
+				borderWidth: 1,
+				pointRadius: 0.1,
+				pointStyle: 'line',
+				backgroundColor: 'rgb(38, 90, 136)'
+			}]
+		},
+		options: {
+			scales: {
+				yAxes: [{
+					ticks: {
+						beginAtZero: false
+					}
+				}]
+			}
+		}
+	});
 }
 
 function displayData (store_name, data_array) {
