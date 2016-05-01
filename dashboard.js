@@ -6,17 +6,23 @@ const DB_VERSION = 1;
 const DB_STORES = ["temp", "humid", "light"];
 
 var db;
-var tempdata = [],
-	humiddata = [],
-	lightdata = [];
+var temp = [],
+	humid = [],
+	light = [];
+
+var data = [
+		temp,
+		humid,
+		light
+	];
 
 function openDB(){
 	var req_db = indexedDB.open(AGWE_DB, DB_VERSION);
 	req_db.onsuccess = function () {
 		db = this.result;
-		fetchData(DB_STORES[0], tempdata);
-		fetchData(DB_STORES[1], humiddata);
-		fetchData(DB_STORES[2], lightdata);
+		data.forEach(function(store, index ){
+			fetchData(DB_STORES[index], store);
+		});
 	};
 	req_db.onerror = function (evt) {
 		console.error("openDb error:", evt.target.errorCode);
