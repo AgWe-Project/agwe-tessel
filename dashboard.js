@@ -6,10 +6,7 @@ const DB_VERSION = 1;
 const DB_STORES = ["temp", "humid", "light"];
 
 var db;
-var temp = [],
-	humid = [],
-	light = [];
-
+var temp = [], humid = [], light = [];
 var data = [ temp, humid, light ];
 
 function openDB(){
