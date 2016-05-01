@@ -10,11 +10,7 @@ var temp = [],
 	humid = [],
 	light = [];
 
-var data = [
-		temp,
-		humid,
-		light
-	];
+var data = [ temp, humid, light ];
 
 function openDB(){
 	var req_db = indexedDB.open(AGWE_DB, DB_VERSION);
