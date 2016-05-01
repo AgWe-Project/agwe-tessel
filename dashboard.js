@@ -12,7 +12,7 @@ var tempdata = [],
 
 function openDB(){
 	var req_db = indexedDB.open(AGWE_DB, DB_VERSION);
-	req_db.onsuccess = function (evt) {
+	req_db.onsuccess = function () {
 		db = this.result;
 		fetchData(DB_STORES[0], tempdata);
 		fetchData(DB_STORES[1], humiddata);
@@ -23,9 +23,9 @@ function openDB(){
 	};
 	req_db.onupgradeneeded = function (event) {
 		var db = event.target.result;
-		var tempStore = db.createObjectStore(DB_STORES[0], { keyPath: "timestamp" });
-		var humidStore = db.createObjectStore(DB_STORES[1], { keyPath: "timestamp" });
-		var lightStore = db.createObjectStore(DB_STORES[2], { keyPath: "timestamp"  });
+		DB.STORES.forEach(function(store){
+			db.createObjectStore(store, { keyPath: "timestamp" });
+		});
 	};
 }
 
@@ -35,6 +35,7 @@ function getObjectStore(store_name, mode) {
 }
 
 function storeReading(store_name, data) {
+	//TODO generate timestamps at sensor read time
 	data.timestamp = Date.now();
 	var store = getObjectStore(store_name, 'readwrite');
 	var rq;
