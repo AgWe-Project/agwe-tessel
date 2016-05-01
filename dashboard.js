@@ -6,6 +6,8 @@ var db;
 var temp = [], humid = [], light = [];
 var data = [ temp, humid, light ];
 
+openDB();
+
 var socket = io("http://" + document.domain);
 
 socket.on('temp', function (data) {
@@ -22,8 +24,6 @@ socket.on('light', function (data) {
 	document.getElementById("light").innerHTML = data.light;
 	storeReading("light", data);
 });
-
-openDB();
 
 function openDB(){
 	var db_req = indexedDB.open(AGWE_DB, DB_VERSION);
