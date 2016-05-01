@@ -4,14 +4,14 @@ const EVENT_STORES = ["temp", "humid", "light"];
 
 var db;
 var temp = [], humid = [], light = [];
-var data = [ temp, humid, light ];
+var data = [temp, humid, light];
 
 openDB();
 
 var socket = io("http://" + document.domain);
 
 EVENT_STORES.forEach(function(store_name){
-	socket.on(store_name,function(data){
+	socket.on(store_name, function (data) {
 		document.getElementById(store_name).innerHTML = data[store_name];
 		if(db){storeReading(store_name, data)}
 	});
@@ -21,7 +21,7 @@ function openDB(){
 	var db_req = indexedDB.open(AGWE_DB, DB_VERSION);
 	db_req.onsuccess = function () {
 		db = this.result;
-		data.forEach(function(store, index ){
+		data.forEach(function(store, index){
 			fetchData(EVENT_STORES[index], store);
 		});
 	};
@@ -36,12 +36,12 @@ function openDB(){
 	};
 }
 
-function getObjectStore(store_name, mode) {
+function getObjectStore (store_name, mode) {
 	var tx = db.transaction(store_name, mode);
 	return tx.objectStore(store_name);
 }
 
-function storeReading(store_name, data) {
+function storeReading (store_name, data) {
 	//TODO generate timestamps at sensor read time
 	data.timestamp = Date.now();
 	var store = getObjectStore(store_name, 'readwrite');
@@ -54,9 +54,9 @@ function storeReading(store_name, data) {
 	};
 }
 
-function fetchData(store_name, data_array){
+function fetchData (store_name, data_array) {
 	var store = getObjectStore(store_name, 'readonly');
-	store.openCursor().onsuccess = function(event) {
+	store.openCursor().onsuccess = function (event) {
 		var cursor = event.target.result;
 		if (cursor) {
 			data_array.push(cursor.value);
@@ -68,7 +68,7 @@ function fetchData(store_name, data_array){
 	};
 }
 
-function displayData(store_name, data_array) {
+function displayData (store_name, data_array) {
 	var tbodyID = store_name + "-body";
 	var tbody = document.getElementById(tbodyID);
 	data_array.forEach(function(dobj){
