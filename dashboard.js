@@ -37,11 +37,11 @@ function storeReading(store_name, data) {
 	//TODO generate timestamps at sensor read time
 	data.timestamp = Date.now();
 	var store = getObjectStore(store_name, 'readwrite');
-	var req = store.add(data);
-	req.onsuccess = function () {
+	var action = store.add(data);
+	action.onsuccess = function () {
 		console.log(store_name, " Insertion in DB successful");
 	};
-	req.onerror = function() {
+	action.onerror = function() {
 		console.error(store_name, " DB Insert error: ", this.error);
 	};
 }
