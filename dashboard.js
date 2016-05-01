@@ -11,11 +11,9 @@ var tempdata = [],
 	lightdata = [];
 
 function openDB(){
-	console.log("open db");
 	var req_db = indexedDB.open(AGWE_DB, DB_VERSION);
 	req_db.onsuccess = function (evt) {
 		db = this.result;
-		console.log("db open");
 		fetchData(DB_STORES[0], tempdata);
 		fetchData(DB_STORES[1], humiddata);
 		fetchData(DB_STORES[2], lightdata);
@@ -24,7 +22,6 @@ function openDB(){
 		console.error("openDb error:", evt.target.errorCode);
 	};
 	req_db.onupgradeneeded = function (event) {
-		console.log("upgrading db");
 		var db = event.target.result;
 		var tempStore = db.createObjectStore(DB_STORES[0], { keyPath: "timestamp" });
 		var humidStore = db.createObjectStore(DB_STORES[1], { keyPath: "timestamp" });
@@ -41,12 +38,8 @@ function storeReading(store_name, data) {
 	data.timestamp = Date.now();
 	var store = getObjectStore(store_name, 'readwrite');
 	var rq;
-	try {
-		req = store.add(data);
-	} catch (e) {
-		throw e;
-	}
-	req.onsuccess = function (evt) {
+	req = store.add(data);
+	req.onsuccess = function () {
 		console.log(store_name, " Insertion in DB successful");
 	};
 	req.onerror = function() {
@@ -63,7 +56,6 @@ function fetchData(store_name, data_array){
 			cursor.continue();
 		}
 		else {
-			console.log("Got all" + store_name + " data ");
 			displayData(store_name, data_array);
 		}
 	};
@@ -79,19 +71,16 @@ function displayData(store_name, data_array) {
 }
 
 socket.on('temp', function (data) {
-	console.log(data);
 	document.getElementById("temp").innerHTML = data.temp;
 	storeReading("temp", data);
 });
 
 socket.on('humid', function (data) {
-	console.log(data);
 	document.getElementById("humid").innerHTML = data.humid;
 	storeReading("humid", data);
 });
 
 socket.on('light', function (data) {
-	console.log(data);
 	document.getElementById("light").innerHTML = data.light;
 	storeReading("light", data);
 });
