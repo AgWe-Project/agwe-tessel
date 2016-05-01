@@ -10,17 +10,17 @@ var temp = [], humid = [], light = [];
 var data = [ temp, humid, light ];
 
 function openDB(){
-	var req_db = indexedDB.open(AGWE_DB, DB_VERSION);
-	req_db.onsuccess = function () {
+	var db_req = indexedDB.open(AGWE_DB, DB_VERSION);
+	db_req.onsuccess = function () {
 		db = this.result;
 		data.forEach(function(store, index ){
 			fetchData(DB_STORES[index], store);
 		});
 	};
-	req_db.onerror = function (evt) {
+	db_req.onerror = function (evt) {
 		console.error("openDb error:", evt.target.errorCode);
 	};
-	req_db.onupgradeneeded = function (event) {
+	db_req.onupgradeneeded = function (event) {
 		var db = event.target.result;
 		DB.STORES.forEach(function(store){
 			db.createObjectStore(store, { keyPath: "timestamp" });
