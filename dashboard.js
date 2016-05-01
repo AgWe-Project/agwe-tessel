@@ -10,19 +10,11 @@ openDB();
 
 var socket = io("http://" + document.domain);
 
-socket.on('temp', function (data) {
-	document.getElementById("temp").innerHTML = data.temp;
-	storeReading("temp", data);
-});
-
-socket.on('humid', function (data) {
-	document.getElementById("humid").innerHTML = data.humid;
-	storeReading("humid", data);
-});
-
-socket.on('light', function (data) {
-	document.getElementById("light").innerHTML = data.light;
-	storeReading("light", data);
+DB_STORES.forEach(function(store_name){
+	socket.on(store_name,function(data){
+		document.getElementById(store_name).innerHTML = data[store_name];
+		if(db){storeReading(store_name, data)}
+	});
 });
 
 function openDB(){
