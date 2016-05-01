@@ -1,6 +1,6 @@
 const AGWE_DB = "AgWe Data";
 const DB_VERSION = 1;
-const DB_STORES = ["temp", "humid", "light"];
+const EVENT_STORES = ["temp", "humid", "light"];
 
 var db;
 var temp = [], humid = [], light = [];
@@ -10,7 +10,7 @@ openDB();
 
 var socket = io("http://" + document.domain);
 
-DB_STORES.forEach(function(store_name){
+EVENT_STORES.forEach(function(store_name){
 	socket.on(store_name,function(data){
 		document.getElementById(store_name).innerHTML = data[store_name];
 		if(db){storeReading(store_name, data)}
@@ -22,7 +22,7 @@ function openDB(){
 	db_req.onsuccess = function () {
 		db = this.result;
 		data.forEach(function(store, index ){
-			fetchData(DB_STORES[index], store);
+			fetchData(EVENT_STORES[index], store);
 		});
 	};
 	db_req.onerror = function (evt) {
@@ -30,8 +30,8 @@ function openDB(){
 	};
 	db_req.onupgradeneeded = function (event) {
 		var db = event.target.result;
-		DB.STORES.forEach(function(store){
-			db.createObjectStore(store, { keyPath: "timestamp" });
+		EVENT.STORES.forEach(function(store_name){
+			db.createObjectStore(store_name, { keyPath: "timestamp" });
 		});
 	};
 }
