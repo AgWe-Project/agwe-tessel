@@ -6,7 +6,7 @@ var db;
 var temp = [], humid = [], light = [];
 var data = [ temp, humid, light ];
 
-var socket = io('http://' + document.domain);
+var socket = io("http://" + document.domain);
 
 socket.on('temp', function (data) {
 	document.getElementById("temp").innerHTML = data.temp;
